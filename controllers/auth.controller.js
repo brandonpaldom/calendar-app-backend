@@ -56,12 +56,14 @@ const register = async (req, res) => {
 }
 
 const renewToken = async (req, res) => {
-  const { uid } = req
+  const { uid, name } = req
   const token = await generateJWT(uid)
   res.status(200).json({
     status: 'success',
     message: 'Token renewed',
     data: {
+      uid,
+      name,
       token,
     },
   })
