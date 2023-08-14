@@ -12,7 +12,7 @@ const login = async (req, res) => {
         message: 'User or password incorrect',
       })
     }
-    const token = await generateJWT(user.id)
+    const token = await generateJWT(user.id, user.name)
     res.status(200).json({
       status: 'success',
       message: 'User logged in',
@@ -37,7 +37,7 @@ const register = async (req, res) => {
     const salt = bcrypt.genSaltSync()
     user.password = bcrypt.hashSync(password, salt)
     await user.save()
-    const token = await generateJWT(user.id)
+    const token = await generateJWT(user.id, user.name)
     res.status(201).json({
       status: 'success',
       message: 'User registered',
@@ -56,9 +56,8 @@ const register = async (req, res) => {
 }
 
 const renewToken = async (req, res) => {
-  const { uid } = req
-  const { name } = req.body
-  const token = await generateJWT(uid)
+  const { uid, name } = req
+  const token = await generateJWT(uid, name)
   res.status(200).json({
     status: 'success',
     message: 'Token renewed',

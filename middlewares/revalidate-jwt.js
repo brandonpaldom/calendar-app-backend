@@ -9,8 +9,9 @@ const revalidateJWT = async (req, res, next) => {
     })
   }
   try {
-    const { uid } = jwt.verify(token, process.env.JWT_SECRET)
+    const { uid, name } = jwt.verify(token, process.env.JWT_SECRET)
     req.uid = uid
+    req.name = name
   } catch (error) {
     return res.status(401).json({
       status: 'error',
